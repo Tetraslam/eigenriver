@@ -230,6 +230,10 @@ export class Renderer {
     
     // Update enemies
     const allEnemyIds = new Set<string>()
+    // Only log if count changed significantly
+    if (Math.abs(state.enemies.size - this.enemyMeshes.size) > 5) {
+      console.log(`[Renderer] Enemy count changed: ${this.enemyMeshes.size} -> ${state.enemies.size}`)
+    }
     for (const enemy of state.enemies.values()) {
       allEnemyIds.add(enemy.id)
       

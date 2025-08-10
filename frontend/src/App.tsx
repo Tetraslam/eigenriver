@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import './App.css'
-import { AsrWsClient, type AsrEvent } from './input/asr/wsClient'
+import { AsrWsClient } from './input/asr/wsClient'
 import { startMicVad } from './input/vad/webrtc'
 import { fetchIntent } from './voice/router'
 import { Renderer } from './engine/renderer'
@@ -24,9 +24,13 @@ function App() {
   const waveIndexRef = useRef(0)
   const [gameStarted, setGameStarted] = useState(false)
   const [selectedSquadState, setSelectedSquadState] = useState<string | null>(null)
-  const [voiceMode, setVoiceMode] = useState<'wake' | 'push' | 'off'>('wake')
+  const [voiceMode, setVoiceMode] = useState<'auto' | 'push' | 'off'>('auto')
+  const [isRecording, setIsRecording] = useState(false)
+  const [recordingTimeLeft, setRecordingTimeLeft] = useState(0)
+  const [breakTimeLeft, setBreakTimeLeft] = useState(0)
   const [isListeningForCommand, setIsListeningForCommand] = useState(false)
   const [wakeWordActive, setWakeWordActive] = useState(false)
+
   
   const asr = useRef<AsrWsClient>()
   const stopVad = useRef<() => void>()
@@ -41,33 +45,175 @@ function App() {
   const dragPath = useRef<[number, number, number][]>([])
   const isPinching = useRef(false)
   const pinchHand = useRef<'Left'|'Right'|null>(null)
-  const autoSpawnTimer = useRef<NodeJS.Timeout | null>(null)
+  const autoSpawnTimer = useRef<number | null>(null)
   const spacePressed = useRef(false)
   const lastSpacePress = useRef(0)
-  const wakeWordTimeout = useRef<NodeJS.Timeout | null>(null)
+  const recordingCycleTimer = useRef<number | null>(null)
+  const recordingCountdown = useRef<number | null>(null)
+  const breakCountdown = useRef<number | null>(null)
+  const audioBuffer = useRef<Float32Array[]>([])
   // Voice FSM guards
-  const voiceModeRef = useRef<'wake'|'push'|'off'>('wake')
+  const voiceModeRef = useRef<'auto'|'push'|'off'>('auto')
   const listeningRef = useRef(false)
-  const listenerKindRef = useRef<'wake'|'command'|'push'|null>(null)
 
   useEffect(() => { voiceModeRef.current = voiceMode }, [voiceMode])
 
   // Helper function to start wake word listening
-  const startWakeWordListening = async () => {
-    if (voiceModeRef.current !== 'wake' || isListeningForCommand || listeningRef.current) return
+  // Process voice command
+  const processVoiceCommand = (text: string) => {
+    if (!gameStateRef.current || !text.trim()) return
     
+    setStatus('Processing command...')
+    fetchIntent(text, gameStateRef.current.getWorldContext()).then(intent => {
+      if (intent) {
+        console.log('[Voice] Intent:', intent)
+        
+        // Handle deployment specially
+        if (Array.isArray(intent)) {
+          for (const cmd of intent) {
+            if (cmd.action === 'deploy' && cmd.deployCount) {
+              const deployed = gameStateRef.current!.deploySquad(cmd.deployCount)
+              console.log(`[Voice] Deployed squads: ${deployed.join(', ')}`)
+            } else {
+              applyIntentToGame(cmd)
+            }
+          }
+        } else if ('action' in intent) {
+          if (intent.action === 'deploy' && intent.deployCount) {
+            const deployed = gameStateRef.current!.deploySquad(intent.deployCount)
+            console.log(`[Voice] Deployed squads: ${deployed.join(', ')}`)
+          } else {
+            applyIntentToGame(intent)
+          }
+        }
+      }
+      setStatus('idle')
+    }).catch(err => {
+      console.error('Intent error:', err)
+      setStatus('intent error')
+    })
+  }
+  
+  // Apply intent to game (non-deployment commands)
+  const applyIntentToGame = (intent: any) => {
+    if (!gameStateRef.current) return
+    
+    for (const target of intent.targets || []) {
+      if (target === 'all') {
+        for (const squad of gameStateRef.current.squads.values()) {
+          applyIntentToSquad(squad, intent, gameStateRef.current)
+        }
+      } else {
+        const squad = gameStateRef.current.squads.get(target)
+        if (squad) {
+          applyIntentToSquad(squad, intent, gameStateRef.current)
+        }
+      }
+    }
+  }
+  
+  // Start automatic recording cycle (10s record, 5s break)
+  const startAutoRecordingCycle = async () => {
+    if (voiceModeRef.current !== 'auto') return
+    
+    // Set up ASR handler first
+    if (!asr.current) {
+      asr.current = new AsrWsClient()
+      await asr.current.connect()
+    }
+    
+    asr.current.onFinal((text: string) => {
+      console.log('[Auto] Command:', text)
+      processVoiceCommand(text)
+    })
+    
+    // Start recording phase
+    const startRecording = async () => {
+      if (voiceModeRef.current !== 'auto') return
+      
+      // Make sure we're not already recording
+      if (stopVad.current) {
+        console.log('[startRecording] Already recording, stopping first')
+        stopVad.current()
+        stopVad.current = undefined
+      }
+      
+      setIsRecording(true)
+      setRecordingTimeLeft(10)
+      setStatus('Recording commands...')
+      audioBuffer.current = []
+      
+      // Countdown timer
+      let timeLeft = 10
+      recordingCountdown.current = setInterval(() => {
+        timeLeft--
+        setRecordingTimeLeft(timeLeft)
+        if (timeLeft <= 0) {
+          if (recordingCountdown.current) {
+            clearInterval(recordingCountdown.current)
+            recordingCountdown.current = null
+          }
+        }
+      }, 1000)
+      
+      // Start capturing audio
+      try {
+        // Tell backend to start ASR stream
+        asr.current.start(16000, 'en')
+        
+        stopVad.current = await startMicVad({
+          onSpeechStart: () => {},
+          onSpeechEnd: () => {},
+          onFrame: (frame) => {
+            if (asr.current?.isConnected()) {
+              asr.current.sendFrame(frame)
+            }
+          }
+        })
+        
+        // After 10 seconds, stop and take a break
+        setTimeout(async () => {
+          if (voiceModeRef.current !== 'auto') return
+          
+          stopVad.current?.()
+          stopVad.current = undefined  // Clear the reference
+          asr.current?.stop()  // Tell backend to stop ASR
+          setIsRecording(false)
+          
+          // Start break phase
+          setBreakTimeLeft(5)
+          setStatus('Break...')
+          
+          let breakTime = 5
+          breakCountdown.current = setInterval(() => {
+            breakTime--
+            setBreakTimeLeft(breakTime)
+            if (breakTime <= 0) {
+              if (breakCountdown.current) {
+                clearInterval(breakCountdown.current)
+                breakCountdown.current = null
+              }
+              // Start next recording cycle
+              startRecording()
+            }
+          }, 1000)
+        }, 10000)
+        
+      } catch (err) {
+        console.error('[Auto] Recording error:', err)
+        setIsRecording(false)
+        setStatus('Mic error')
+      }
+    }
+    
+    // Start first recording
     setMicActive(true)
-    setStatus('listening for wake word...')
-    asr.current?.start(16000, 'en')
-    stopVad.current = await startMicVad({
-      onSpeechStart: () => {},
-      onSpeechEnd: () => { 
-        asr.current?.stop()
-      },
-      onFrame: (f) => asr.current?.pushPcm(f)
-    }, { hangoverMs: 200 })
-    listeningRef.current = true
-    listenerKindRef.current = 'wake'
+    startRecording()
+  }
+  
+  const startWakeWordListening = async () => {
+    // Wake word mode no longer used - replaced with auto recording
+    return
   }
   
   useEffect(() => {
@@ -77,8 +223,8 @@ function App() {
     // Initialize game state
     gameStateRef.current = new GameState()
     
-    // Initialize ASR
-    asr.current = new AsrWsClient()
+    // Initialize ASR (but don't connect yet - will connect when needed)
+    /*asr.current = new AsrWsClient()
     asr.current.connect((e: AsrEvent) => {
       if (e.type === 'ready') setStatus('ready')
       if (e.type === 'final') {
@@ -181,7 +327,7 @@ function App() {
           })
         }
       }
-    })
+    })*/
     
     // Initialize hand tracking
     handTracker.current = new HandTracker()
@@ -189,6 +335,10 @@ function App() {
     
     return () => {
       if (autoSpawnTimer.current) clearInterval(autoSpawnTimer.current)
+      if (recordingCycleTimer.current) clearInterval(recordingCycleTimer.current)
+      if (recordingCountdown.current) clearInterval(recordingCountdown.current)
+      if (breakCountdown.current) clearInterval(breakCountdown.current)
+      stopVad.current?.()
     }
   }, [])
   
@@ -338,21 +488,23 @@ function App() {
         const now = Date.now()
         if (now - lastSpacePress.current < 300) {
           // Double tap - switch modes
-          if (voiceMode === 'wake') {
+          if (voiceMode === 'auto') {
             setVoiceMode('push')
             setStatus('Push-to-talk mode')
+            // Stop auto recording
+            if (recordingCountdown.current) clearInterval(recordingCountdown.current)
+            if (breakCountdown.current) clearInterval(breakCountdown.current)
+            if (recordingCycleTimer.current) clearInterval(recordingCycleTimer.current)
             stopVad.current?.()
-            asr.current?.stop()
+            setIsRecording(false)
+            setRecordingTimeLeft(0)
+            setBreakTimeLeft(0)
             setMicActive(false)
-            listeningRef.current = false
-            listenerKindRef.current = null
           } else if (voiceMode === 'push') {
-            setVoiceMode('wake')
-            setStatus('Wake word mode')
-            stopVad.current?.(); asr.current?.stop()
-            listeningRef.current = false
-            listenerKindRef.current = null
-            startWakeWordListening()
+            setVoiceMode('auto')
+            setStatus('Auto recording mode')
+            // Start auto recording
+            startAutoRecordingCycle()
           } else {
             setVoiceMode('push')
             setStatus('Push-to-talk mode')
@@ -361,20 +513,37 @@ function App() {
         }
         lastSpacePress.current = now
         
-        // Push-to-talk (single active listener)
+        // Push-to-talk
         if (voiceMode === 'push' && !spacePressed.current) {
           spacePressed.current = true
           setMicActive(true)
-          setStatus('listening...')
-          asr.current?.start(16000, 'en')
-          stopVad.current?.()
+          setStatus('Push to talk...')
+          
+          // Set up ASR if needed
+          if (!asr.current) {
+            asr.current = new AsrWsClient()
+            asr.current.connect().then(() => {
+              asr.current!.onFinal((text: string) => {
+                console.log('[Push] Command:', text)
+                processVoiceCommand(text)
+              })
+            })
+          }
+          
+          // Start capturing audio
+          asr.current.start(16000, 'en')  // Tell backend to start ASR
+          
           startMicVad({
-            onSpeechStart: () => setStatus('speaking'),
+            onSpeechStart: () => setStatus('Speaking...'),
             onSpeechEnd: () => {},
-            onFrame: (f) => asr.current?.pushPcm(f)
-          }, { hangoverMs: 400 })
-          listeningRef.current = true
-          listenerKindRef.current = 'push'
+            onFrame: (frame) => {
+              if (asr.current?.isConnected()) {
+                asr.current.sendFrame(frame)
+              }
+            }
+          }).then(stop => {
+            stopVad.current = stop
+          })
         }
       }
     }
@@ -384,11 +553,10 @@ function App() {
         e.preventDefault()
         spacePressed.current = false
         stopVad.current?.()
-        asr.current?.stop()
+        stopVad.current = undefined
+        asr.current?.stop()  // Tell backend to stop ASR
         setMicActive(false)
-        setStatus('processing...')
-        listeningRef.current = false
-        listenerKindRef.current = null
+        setStatus('Processing...')
       }
     }
     
@@ -403,15 +571,19 @@ function App() {
   
   const waveCountFor = (wave: number) => {
     // Fast ramp to hundreds; quadratic growth with a cap for perf
-    return Math.min(600, Math.floor(25 + 8 * wave + 0.6 * wave * wave))
+    const count = Math.min(600, Math.floor(25 + 8 * wave + 0.6 * wave * wave))
+    console.log(`[waveCountFor] Wave ${wave} -> ${count} enemies`)
+    return count
   }
 
   const onStartGame = async () => {
     setGameStarted(true)
     
-    // Start wake word listening by default
+    // Start automatic recording cycles if in auto mode
     setStatus('ready')
-    setTimeout(() => startWakeWordListening(), 1000)
+    if (voiceMode === 'auto') {
+      setTimeout(() => startAutoRecordingCycle(), 1000)
+    }
     
     // Auto-start hands
     if (handTracker.current && gestureRec.current) {
@@ -493,11 +665,13 @@ function App() {
     let waveTimer = 0
     autoSpawnTimer.current = setInterval(() => {
       if (gameStateRef.current) {
+        console.log(`[Wave Timer] Enemies: ${gameStateRef.current.enemies.size}, Timer: ${waveTimer}`)
         if (gameStateRef.current.enemies.size === 0) {
           waveTimer++
           if (waveTimer > 2) {  // 2 seconds after clearing
             waveIndexRef.current += 1
             const count = waveCountFor(waveIndexRef.current)
+            console.log(`[Wave Spawn] Wave ${waveIndexRef.current}, spawning ${count} enemies`)
             gameStateRef.current.spawnEnemyWave(count)
             setWaveNumber(waveIndexRef.current)
             setSpawnedThisWave(count)
@@ -618,9 +792,11 @@ function App() {
               borderRadius: 4,
               marginBottom: 8
             }}>
-              Voice: {voiceMode === 'wake' ? '🎤 Say "Commander"' : voiceMode === 'push' ? '🎮 Hold SPACE' : '🔇 OFF'}
+              Voice: {voiceMode === 'auto' ? 
+                (isRecording ? `🔴 RECORDING (${recordingTimeLeft}s)` : 
+                 breakTimeLeft > 0 ? `⏸️ BREAK (${breakTimeLeft}s)` : '🎤 Auto') : 
+                voiceMode === 'push' ? '🎮 Hold SPACE' : '🔇 OFF'}
               {micActive && ` | ${status}`}
-              {voiceMode === 'push' && ' | Double-tap SPACE for wake mode'}
             </div>
             <div style={{ 
               padding: '8px 12px', 
@@ -643,6 +819,10 @@ function App() {
               <strong>Wave {waveNumber}</strong> | Enemies: {enemyCount} | Spawned: {spawnedThisWave}
             </div>
             <div style={{ marginBottom: 8 }}>
+              Kills: {gameStateRef.current?.kills || 0} | Squad Points: {gameStateRef.current?.squadPoints || 0}/20 | 
+              {gameStateRef.current?.deployableSquads ? ` 🚀 ${gameStateRef.current.deployableSquads} squads ready!` : ''}
+            </div>
+            <div style={{ marginBottom: 8 }}>
               <div>Alpha: {squadCounts.alpha}/20</div>
               <div>Bravo: {squadCounts.bravo}/20</div>
               <div>Charlie: {squadCounts.charlie}/20</div>
@@ -655,7 +835,7 @@ function App() {
             {finalText && (
               <div style={{ marginBottom: 8 }}>
                 <strong>Command:</strong> {finalText}
-              </div>
+      </div>
             )}
             <button 
               onClick={onRespawnSquads}
@@ -669,9 +849,9 @@ function App() {
               }}
             >
               Respawn Squads
-            </button>
+        </button>
           </div>
-        </div>
+      </div>
       )}
     </>
   )

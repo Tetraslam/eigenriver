@@ -48,6 +48,12 @@ export class GameState {
   landmarks: { name: string, position: THREE.Vector3 }[] = []
   private assaultPulseTimer = 0
   
+  // Squad deployment system
+  kills = 0
+  squadPoints = 0  // 3 kills = 1 squad member
+  deployableSquads = 0  // Full squads ready to deploy
+  nextSquadId = 4  // After alpha, bravo, charlie
+  
   constructor() {
     this.initSquads()
     this.initLandmarks()
@@ -322,12 +328,14 @@ export class GameState {
   }
 
   private spawnAssaultBurst(count: number) {
+    console.log(`[spawnAssaultBurst] Spawning ${count} assault fighters`)
     // Spawn fighters closer and on multiple arcs
     for (let i = 0; i < count; i++) {
       const angle = Math.random() * Math.PI * 2
       const radius = 45 + Math.random()*15
+      const uniqueId = `pulse-${Date.now()}-${i}-${Math.random().toString(36).substr(2, 9)}`
       const enemy: Enemy = {
-        id: `pulse-${Date.now()}-${i}`,
+        id: uniqueId,
         type: 'fighter',
         position: new THREE.Vector3(Math.cos(angle)*radius, 0.5, Math.sin(angle)*radius),
         velocity: new THREE.Vector3(0,0,0),
@@ -337,6 +345,7 @@ export class GameState {
       }
       this.enemies.set(enemy.id, enemy)
     }
+    console.log(`[spawnAssaultBurst] Total enemies now: ${this.enemies.size}`)
   }
   
   private updateProjectiles(dt: number) {
@@ -380,7 +389,18 @@ export class GameState {
     }
     
     for (const [id, enemy] of this.enemies.entries()) {
-      if (enemy.hp <= 0) this.enemies.delete(id)
+      if (enemy.hp <= 0) {
+        this.enemies.delete(id)
+        this.kills++
+        this.squadPoints++
+        
+        // Every 20 squad points = 1 deployable squad
+        if (this.squadPoints >= 20) {
+          this.squadPoints -= 20
+          this.deployableSquads++
+          console.log(`[GameState] Squad ready to deploy! Total deployable: ${this.deployableSquads}`)
+        }
+      }
     }
   }
   
@@ -394,18 +414,85 @@ export class GameState {
     })
   }
   
+  deploySquad(count: number = 1): string[] {
+    const deployed: string[] = []
+    const squadNames = ['delta', 'echo', 'foxtrot', 'golf', 'hotel', 'india', 'juliet', 'kilo', 'lima', 'mike', 'november', 'oscar', 'papa', 'quebec', 'romeo', 'sierra', 'tango', 'uniform', 'victor', 'whiskey', 'xray', 'yankee', 'zulu']
+    
+    for (let i = 0; i < count && this.deployableSquads > 0; i++) {
+      this.deployableSquads--
+      
+      // Generate squad name
+      const nameIndex = (this.nextSquadId - 4) % squadNames.length
+      const name = squadNames[nameIndex]
+      this.nextSquadId++
+      
+      // Create squad at a safe spawn position
+      const angle = Math.random() * Math.PI * 2
+      const radius = 15 + Math.random() * 10
+      const centerX = Math.cos(angle) * radius
+      const centerZ = Math.sin(angle) * radius
+      
+      const squad: Squad = {
+        name,
+        ships: [],
+        center: new THREE.Vector3(centerX, 0, centerZ),
+        formation: 'line',
+        heading: 0,
+        speed: 0,
+        path: null,
+        currentWaypoint: 0,
+        encircle: false,
+        pathCycle: false
+      }
+      
+      // Create 20 ships for the squad
+      for (let j = 0; j < 20; j++) {
+        const ship: Ship = {
+          id: `${name}-${j}`,
+          squadId: name,
+          position: new THREE.Vector3(
+            centerX + (Math.random() - 0.5) * 8,
+            0,
+            centerZ + (Math.random() - 0.5) * 8
+          ),
+          velocity: new THREE.Vector3(0, 0, 0),
+          hp: 100,
+          maxHp: 100,
+          cooldown: 0
+        }
+        squad.ships.push(ship)
+      }
+      
+      this.squads.set(name, squad)
+      deployed.push(name)
+      console.log(`[GameState] Deployed squad "${name}" at (${Math.round(centerX)}, ${Math.round(centerZ)})`)
+    }
+    
+    return deployed
+  }
+  
   spawnEnemyWave(count: number) {
+    console.log(`[spawnEnemyWave] Requested count: ${count}, Current enemies: ${this.enemies.size}`)
     const wave = Math.floor(this.frame / 600) + 1
     const fighterBias = Math.min(0.9, 0.6 + wave * 0.05)
     const bomberChance = Math.min(0.3, 0.15 + wave * 0.02)
     const capitalChance = Math.min(0.1, 0.02 + Math.floor(wave/4) * 0.02)
+    
+    let actualSpawned = 0
+    const startSize = this.enemies.size
+    
     for (let i = 0; i < count; i++) {
       const angle = (i / count) * Math.PI * 2 + Math.random()*0.4
       const radius = 70 + Math.random()*20
       const r = Math.random()
       const type: Enemy['type'] = r < capitalChance ? 'capital' : r < capitalChance + bomberChance ? 'bomber' : 'fighter'
+      
+      // Use a more unique ID to avoid collisions
+      const timestamp = Date.now()
+      const uniqueId = `enemy-${timestamp}-${i}-${Math.random().toString(36).substr(2, 9)}`
+      
       const enemy: Enemy = {
-        id: `enemy-${Date.now()}-${i}-${Math.floor(Math.random()*1e6)}`,
+        id: uniqueId,
         type,
         position: new THREE.Vector3(
           Math.cos(angle) * radius,
@@ -417,12 +504,38 @@ export class GameState {
         maxHp: 50,
         cooldown: 0
       }
+      
       this.enemies.set(enemy.id, enemy)
+      actualSpawned++
+      
+      // Debug each spawn
+      if (i < 3 || i === count - 1) {
+        console.log(`  - Spawned ${type} at (${Math.round(enemy.position.x)}, ${Math.round(enemy.position.z)}) with ID ${uniqueId}`)
+      }
+    }
+    
+    const endSize = this.enemies.size
+    console.log(`[spawnEnemyWave] Actually spawned: ${actualSpawned}, Size before: ${startSize}, Size after: ${endSize}`)
+    
+    // Verify they're really there
+    if (endSize - startSize !== actualSpawned) {
+      console.error(`[spawnEnemyWave] ERROR: Expected to add ${actualSpawned} enemies but only added ${endSize - startSize}`)
     }
   }
   
   // Get world context for LLM
   getWorldContext() {
+    // Deployment mechanics info
+    const deploymentInfo = {
+      kills: this.kills,
+      squadPoints: this.squadPoints,
+      squadPointsNeeded: 20 - this.squadPoints,
+      deployableSquads: this.deployableSquads,
+      killsPerSquadMember: 1,
+      membersPerSquad: 20,
+      activeSquadCount: this.squads.size
+    }
+    
     // Detailed squad telemetry
     const squadInfo: any = {}
     for (const [name, s] of this.squads.entries()) {
@@ -494,6 +607,7 @@ export class GameState {
     return {
       timestamp: Date.now(),
       frame: this.frame,
+      deployment: deploymentInfo,
       squads: squadInfo,
       enemyCount: this.enemies.size,
       threats,

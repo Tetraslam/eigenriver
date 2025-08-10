@@ -36,6 +36,7 @@ Action = Literal[
     "defend",
     "regroup",
     "focus_fire",
+    "deploy",  # Deploy new squads
 ]
 
 Formation = Literal["none", "wall", "wedge", "sphere", "swarm", "column", "line", "diamond"]
@@ -56,6 +57,7 @@ class SingleIntent(BaseModel):
     speed: int = Field(ge=0, le=10)
     path: Optional[List[Tuple[float, float, float]]] = None
     zone: Optional[Zone] = None
+    deployCount: Optional[int] = Field(None, ge=1, le=10)  # For deploy action
 
     @field_validator("path")
     @classmethod
