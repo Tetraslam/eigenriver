@@ -1,0 +1,17 @@
+[project]
+name = "backend"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "ctranslate2==4.4",
+    "fastapi>=0.116.1",
+    "faster-whisper<1.2",
+    "httpx>=0.28.1",
+    "numpy>=2.3.2",
+    "pydantic>=2.11.7",
+    "pydantic-settings>=2.10.1",
+    "torch>=2.8.0",
+    "uvicorn[standard]>=0.35.0",
+]
