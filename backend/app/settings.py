@@ -13,13 +13,18 @@ class Settings(BaseSettings):
     json_enforce_strict: bool = True
 
     # ASR / Whisper
-    whisper_model_id: str = "small.en"  # set to tiny.en for lower latency
+    whisper_model_id: str = "large-v3"  # set to tiny.en for lower latency
     whisper_device: str = "cuda"        # "cuda" or "cpu"
     whisper_compute_type: str = "int8_float16"  # good default for RTX GPUs
     whisper_initial_prompt: str = (
-        "alpha bravo charlie all carriers interceptors "
-        "flank pincer hold advance screen intercept retreat patrol rally escort "
-        "wall wedge sphere swarm column left right center speed zero one two three four five"
+        "alpha bravo charlie delta echo foxtrot golf hotel india juliet kilo lima mike "
+        "november oscar papa quebec romeo sierra tango uniform victor whiskey xray yankee zulu "
+        "all squads deploy cycle between waypoints move help "
+        "flank pincer hold advance screen intercept retreat patrol rally escort attack defend regroup "
+        "wall wedge sphere swarm column circle triangle square "
+        "left right up down forward backward center north south east west "
+        "speed zero one two three four five six seven eight nine ten "
+        "eighteen twenty thirty forty fifty hundred"
     )
 
     # Optional alternate ASR backend

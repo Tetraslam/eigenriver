@@ -1,0 +1,234 @@
+================================================================================
+GAME SESSION LOG - 2025-08-10 16:40:02
+================================================================================
+
+[16:40:02.629] WHISPER_FINAL:
+  Text: 
+
+[16:40:14.860] WHISPER_FINAL:
+  Text: don't
+
+[16:40:14.978] INTENT_REQUEST:
+  Command: don't
+  Context Summary:
+    Active Squads: bravo(3)
+    Enemy Count: 15
+    Wave: 1
+
+[16:40:16.667] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "action": "hold",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": null,
+    "deployFormation": null,
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[16:40:23.887] WHISPER_FINAL:
+  Text: deploy one squad
+
+[16:40:24.062] INTENT_REQUEST:
+  Command: deploy one squad
+  Context Summary:
+    Active Squads: 
+    Enemy Count: 16
+    Wave: 1
+
+[16:40:25.448] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": null,
+    "action": "deploy",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": 1,
+    "deployFormation": "circle",
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[16:40:33.874] WHISPER_FINAL:
+  Text: 
+
+[16:40:44.243] WHISPER_FINAL:
+  Text: 
+
+[16:40:55.279] WHISPER_FINAL:
+  Text: deploy one squad
+
+[16:40:55.366] INTENT_REQUEST:
+  Command: deploy one squad
+  Context Summary:
+    Active Squads: 
+    Enemy Count: 12
+    Wave: 3
+
+[16:40:56.825] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": null,
+    "action": "deploy",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": 1,
+    "deployFormation": "circle",
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[16:41:05.228] WHISPER_FINAL:
+  Text: 
+
+[16:41:16.477] WHISPER_FINAL:
+  Text: right two
+
+[16:41:16.572] INTENT_REQUEST:
+  Command: right two
+  Context Summary:
+    Active Squads: 
+    Enemy Count: 30
+    Wave: 3
+
+[16:41:18.237] INTENT_RESPONSE (ERROR):
+  Error: Validation error: 1 validation error for IntentCommand
+relativeMovement.direction
+  Input should be a valid number, unable to parse string as a number [type=float_parsing, input_value='right', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.11/v/float_parsing
+  Raw Response: {'targets': ['all'], 'action': 'move', 'relativeMovement': {'direction': 'right', 'distance': 40}, 'maintainSpacing': True}
+  Raw Response: {'targets': ['all'], 'action': 'move', 'relativeMovement': {'direction': 'right', 'distance': 40}, 'maintainSpacing': True}
+
+[16:41:27.093] WHISPER_FINAL:
+  Text: deploy to two squads
+
+[16:41:27.188] INTENT_REQUEST:
+  Command: deploy to two squads
+  Context Summary:
+    Active Squads: 
+    Enemy Count: 36
+    Wave: 4
+
+[16:41:28.613] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": null,
+    "action": "deploy",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": 2,
+    "deployFormation": "circle",
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[16:41:37.262] WHISPER_FINAL:
+  Text: 
+
+[16:41:48.980] WHISPER_FINAL:
+  Text: one two three four
+
+[16:41:49.135] INTENT_REQUEST:
+  Command: one two three four
+  Context Summary:
+    Active Squads: 
+    Enemy Count: 21
+    Wave: 4
+
+[16:41:50.383] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": null,
+    "action": "deploy",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": 4,
+    "deployFormation": "circle",
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[16:41:58.715] WHISPER_FINAL:
+  Text: what's cycle between the waypoints
+
+[16:41:59.014] INTENT_REQUEST:
+  Command: what's cycle between the waypoints
+  Context Summary:
+    Active Squads: hotel(19), india(20), juliet(20), kilo(7)
+    Enemy Count: 58
+    Wave: 5
+
+[16:42:01.091] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "action": "patrol",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": null,
+    "deployFormation": null,
+    "waypointTargets": [
+        "delta",
+        "echo",
+        "foxtrot"
+    ],
+    "cycleWaypoints": true,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[16:42:08.550] WHISPER_FINAL:
+  Text: 
+

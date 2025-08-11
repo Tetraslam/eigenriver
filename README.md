@@ -2,7 +2,22 @@
 
 ## What is this?
 
-Single-laptop, browser 3D “commander” game: control human starfleets with **hands + voice**. Hands do spatial intent (where); voice sets strategy (what/which/how fast). Survive waves; style points for clean formations and chained kills. Inspired by Ender's Game.
+Single-laptop, browser 3D "commander" game: control human starfleets with **hands + voice**. Hands do spatial intent (where); voice sets strategy (what/which/how fast). Survive waves; style points for clean formations and chained kills. Inspired by Ender's Game.
+
+## Recent Improvements (12/2024)
+
+### Features Added:
+- **Waypoint Navigation**: Voice commands like "move to delta" or "all squads move to echo" for landmark-based navigation
+- **Relative Movement**: Commands like "move right", "alpha and bravo move left" with intelligent distance calculations
+- **4 Squad Types** with unique abilities:
+  - **Assault** (Red): Fast, rapid fire, low HP
+  - **Sniper** (Purple): Slow, long range, high damage
+  - **Bomber** (Orange): Medium speed, spread shots
+  - **Defender** (Blue): Tanky, dual cannons
+- **GPU-Optimized Rendering**: Instanced rendering for 1000s of units at 60fps on RTX 4080
+- **Progressive Wave System**: 6 wave patterns (surround, blitz, pincer, artillery, swarm, boss)
+- **Sound Effects**: Strategic audio with laser sounds, announcements, and wave alerts
+- **Squad Deployment System**: Earn squad points from kills, deploy new squads dynamically
 
 ## Core loop (how it feels)
 

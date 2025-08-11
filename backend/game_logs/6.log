@@ -1,0 +1,1881 @@
+================================================================================
+GAME SESSION LOG - 2025-08-10 16:54:18
+================================================================================
+
+[16:54:18.544] WHISPER_FINAL:
+  Text: five
+
+[16:54:18.637] INTENT_REQUEST:
+  Command: five
+  Context Summary:
+    Active Squads: alpha(20), bravo(20), charlie(15)
+    Enemy Count: 0
+    Wave: 1
+
+[16:54:20.083] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "action": "deploy",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": 1,
+    "deployFormation": null,
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[16:54:27.115] WHISPER_FINAL:
+  Text: 
+
+[16:54:38.077] WHISPER_FINAL:
+  Text: deploy two squads in a circle
+
+[16:54:38.100] INTENT_REQUEST:
+  Command: deploy two squads in a circle
+  Context Summary:
+    Active Squads: 
+    Enemy Count: 14
+    Wave: 2
+
+[16:54:39.552] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "action": "deploy",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": 2,
+    "deployFormation": "circle",
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[16:54:47.772] WHISPER_FINAL:
+  Text: 
+
+[16:54:59.671] WHISPER_FINAL:
+  Text: echo move to
+
+[16:54:59.756] INTENT_REQUEST:
+  Command: echo move to
+  Context Summary:
+    Active Squads: echo(12), foxtrot(18)
+    Enemy Count: 19
+    Wave: 3
+
+[16:55:01.735] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "echo"
+    ],
+    "action": "move",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": null,
+    "deployFormation": null,
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": {
+        "x": 40,
+        "z": 0
+    },
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": true
+}
+
+[16:55:08.871] WHISPER_FINAL:
+  Text: deploy three cc squads in a circle
+
+[16:55:08.951] INTENT_REQUEST:
+  Command: deploy three cc squads in a circle
+  Context Summary:
+    Active Squads: foxtrot(16)
+    Enemy Count: 5
+    Wave: 4
+
+[16:55:10.491] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "action": "deploy",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": 3,
+    "deployFormation": "circle",
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[16:55:19.032] WHISPER_FINAL:
+  Text: between the waypoints
+
+[16:55:19.122] INTENT_REQUEST:
+  Command: between the waypoints
+  Context Summary:
+    Active Squads: foxtrot(13), golf(13), hotel(9), india(10)
+    Enemy Count: 36
+    Wave: 4
+
+[16:55:21.035] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "action": "patrol",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": null,
+    "deployFormation": null,
+    "waypointTargets": [
+        "delta",
+        "echo",
+        "foxtrot"
+    ],
+    "cycleWaypoints": true,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[16:55:29.408] WHISPER_FINAL:
+  Text: deploy three squads
+
+[16:55:29.464] INTENT_REQUEST:
+  Command: deploy three squads
+  Context Summary:
+    Active Squads: 
+    Enemy Count: 28
+    Wave: 5
+
+[16:55:31.159] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "action": "deploy",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": 3,
+    "deployFormation": null,
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[16:55:39.109] WHISPER_FINAL:
+  Text: 
+
+[16:55:49.646] WHISPER_FINAL:
+  Text: 
+
+[16:56:00.640] WHISPER_FINAL:
+  Text: deploy four squads in a square
+
+[16:56:00.696] INTENT_REQUEST:
+  Command: deploy four squads in a square
+  Context Summary:
+    Active Squads: 
+    Enemy Count: 29
+    Wave: 7
+
+[16:56:02.638] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [],
+    "action": "deploy",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": 4,
+    "deployFormation": "square",
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[16:56:11.008] WHISPER_FINAL:
+  Text: all squads move point delta
+
+[16:56:11.085] INTENT_REQUEST:
+  Command: all squads move point delta
+  Context Summary:
+    Active Squads: mike(20), november(20), oscar(20), papa(20)
+    Enemy Count: 0
+    Wave: 7
+
+[16:56:12.606] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "action": "move",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": null,
+    "deployFormation": null,
+    "waypointTargets": [
+        "delta"
+    ],
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[16:56:21.768] WHISPER_FINAL:
+  Text: all
+
+[16:56:21.886] INTENT_REQUEST:
+  Command: all
+  Context Summary:
+    Active Squads: mike(12), november(10), oscar(6), papa(14)
+    Enemy Count: 18
+    Wave: 8
+
+[16:56:23.746] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "action": null,
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": null,
+    "deployFormation": null,
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[16:56:32.188] WHISPER_FINAL:
+  Text: all of this
+
+[16:56:32.276] INTENT_REQUEST:
+  Command: all of this
+  Context Summary:
+    Active Squads: mike(10), november(7), oscar(5), papa(9)
+    Enemy Count: 71
+    Wave: 8
+
+[16:56:34.421] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "type": "multi",
+    "commands": [
+        {
+            "targets": [
+                "all"
+            ],
+            "action": "attack",
+            "formation": null,
+            "direction": null,
+            "speed": null,
+            "path": null,
+            "zone": null,
+            "deployCount": null,
+            "deployFormation": null,
+            "waypointTargets": null,
+            "cycleWaypoints": null,
+            "pathCycle": null,
+            "relativeMove": null,
+            "relativeMovement": null,
+            "helpTarget": null,
+            "targetSquad": null,
+            "maintainSpacing": null
+        }
+    ]
+}
+
+[16:56:42.390] WHISPER_FINAL:
+  Text: deploy seventeen squads
+
+[16:56:42.442] INTENT_REQUEST:
+  Command: deploy seventeen squads
+  Context Summary:
+    Active Squads: 
+    Enemy Count: 36
+    Wave: 8
+
+[16:56:44.096] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "action": "deploy",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": 17,
+    "deployFormation": null,
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[16:56:52.290] WHISPER_FINAL:
+  Text: 
+
+[16:57:03.598] WHISPER_FINAL:
+  Text: between the waypoints
+
+[16:57:03.807] INTENT_REQUEST:
+  Command: between the waypoints
+  Context Summary:
+    Active Squads: delta(17), echo(19), foxtrot(17), golf(20), hotel(20), india(17), juliet(19), quebec(19), romeo(17), sierra(20), tango(20), uniform(20), victor(20), whiskey(20), xray(16), yankee(20), zulu(17)
+    Enemy Count: 0
+    Wave: 9
+
+[16:57:05.667] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "action": null,
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": null,
+    "deployFormation": null,
+    "waypointTargets": [
+        "delta",
+        "echo",
+        "foxtrot"
+    ],
+    "cycleWaypoints": true,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[16:57:13.830] WHISPER_FINAL:
+  Text: 
+
+[16:57:25.215] WHISPER_FINAL:
+  Text: five squads many five squads
+
+[16:57:25.231] INTENT_REQUEST:
+  Command: five squads many five squads
+  Context Summary:
+    Active Squads: 
+    Enemy Count: 11
+    Wave: 10
+
+[16:57:27.192] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "action": "deploy",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": 5,
+    "deployFormation": "circle",
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[16:57:35.755] WHISPER_FINAL:
+  Text: one
+
+[16:57:35.856] INTENT_REQUEST:
+  Command: one
+  Context Summary:
+    Active Squads: kilo(19), lima(20), mike(20), november(20), oscar(20)
+    Enemy Count: 0
+    Wave: 10
+
+[16:57:37.817] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "action": "deploy",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": 1,
+    "deployFormation": null,
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[16:57:46.310] WHISPER_FINAL:
+  Text: right hand one two three four five six seven eight nine ten eighteen twenty thirty
+
+[16:57:46.348] INTENT_REQUEST:
+  Command: right hand one two three four five six seven eight nine ten eighteen twenty thirty
+  Context Summary:
+    Active Squads: 
+    Enemy Count: 37
+    Wave: 10
+
+[16:57:48.202] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "action": null,
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": null,
+    "deployFormation": null,
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": {
+        "x": 40,
+        "z": 0
+    },
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": true
+}
+
+[16:57:56.453] WHISPER_FINAL:
+  Text: by ten squads and scots
+
+[16:57:56.478] INTENT_REQUEST:
+  Command: by ten squads and scots
+  Context Summary:
+    Active Squads: 
+    Enemy Count: 73
+    Wave: 11
+
+[16:57:58.263] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": null,
+    "action": "deploy",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": 10,
+    "deployFormation": "circle",
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[16:58:06.282] WHISPER_FINAL:
+  Text: 
+
+[16:58:17.341] WHISPER_FINAL:
+  Text: months
+
+[16:58:17.440] INTENT_REQUEST:
+  Command: months
+  Context Summary:
+    Active Squads: quebec(13), sierra(8), tango(12), uniform(3), victor(3), whiskey(11), xray(15), yankee(12), zulu(16)
+    Enemy Count: 0
+    Wave: 11
+
+[16:58:19.036] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": null,
+    "action": "hold",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": null,
+    "deployFormation": null,
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[16:58:29.445] WHISPER_FINAL:
+  Text: five and six squads
+
+[16:58:29.540] INTENT_REQUEST:
+  Command: five and six squads
+  Context Summary:
+    Active Squads: 
+    Enemy Count: 25
+    Wave: 12
+
+[16:58:32.221] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "type": "multi",
+    "commands": [
+        {
+            "targets": [
+                "all"
+            ],
+            "action": "deploy",
+            "formation": null,
+            "direction": null,
+            "speed": null,
+            "path": null,
+            "zone": null,
+            "deployCount": 5,
+            "deployFormation": null,
+            "waypointTargets": null,
+            "cycleWaypoints": null,
+            "pathCycle": null,
+            "relativeMove": null,
+            "relativeMovement": null,
+            "helpTarget": null,
+            "targetSquad": null,
+            "maintainSpacing": null
+        },
+        {
+            "targets": [
+                "all"
+            ],
+            "action": "deploy",
+            "formation": null,
+            "direction": null,
+            "speed": null,
+            "path": null,
+            "zone": null,
+            "deployCount": 6,
+            "deployFormation": null,
+            "waypointTargets": null,
+            "cycleWaypoints": null,
+            "pathCycle": null,
+            "relativeMove": null,
+            "relativeMovement": null,
+            "helpTarget": null,
+            "targetSquad": null,
+            "maintainSpacing": null
+        }
+    ]
+}
+
+[16:58:38.544] WHISPER_FINAL:
+  Text: deploy ten squads
+
+[16:58:38.665] INTENT_REQUEST:
+  Command: deploy ten squads
+  Context Summary:
+    Active Squads: 
+    Enemy Count: 65
+    Wave: 12
+
+[16:58:40.766] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "action": "deploy",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": 10,
+    "deployFormation": null,
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[16:58:48.216] WHISPER_FINAL:
+  Text: 
+
+[16:59:00.990] WHISPER_FINAL:
+  Text: by thirty five by thirty
+
+[16:59:01.347] INTENT_REQUEST:
+  Command: by thirty five by thirty
+  Context Summary:
+    Active Squads: delta(7), echo(4), foxtrot(7), hotel(9), india(5), kilo(2), lima(12)
+    Enemy Count: 66
+    Wave: 13
+
+[16:59:03.435] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "action": null,
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": null,
+    "deployFormation": null,
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": {
+        "x": 35,
+        "z": 30
+    },
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": true
+}
+
+[16:59:09.965] WHISPER_FINAL:
+  Text: five thirty dc squads
+
+[16:59:09.992] INTENT_REQUEST:
+  Command: five thirty dc squads
+  Context Summary:
+    Active Squads: 
+    Enemy Count: 90
+    Wave: 13
+
+[16:59:12.182] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "action": "deploy",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": 5,
+    "deployFormation": null,
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[17:03:42.248] WHISPER_FINAL:
+  Text: so so it's a gesture and voice control game where you play as
+
+[17:03:42.260] INTENT_REQUEST:
+  Command: so so it's a gesture and voice control game where you play as
+  Context Summary:
+    Active Squads: alpha(20), bravo(20), charlie(20)
+    Enemy Count: 0
+    Wave: 1
+
+[17:03:43.631] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "action": "idle",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": null,
+    "deployFormation": null,
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[17:04:25.984] WHISPER_FINAL:
+  Text: 
+
+[17:04:36.065] WHISPER_FINAL:
+  Text: 
+
+[17:05:39.221] WHISPER_FINAL:
+  Text: four um
+
+[17:05:39.242] INTENT_REQUEST:
+  Command: four
+  Context Summary:
+    Active Squads: alpha(20), bravo(20), charlie(20)
+    Enemy Count: 0
+    Wave: 3
+
+[17:05:41.051] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "action": "deploy",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": 4,
+    "deployFormation": null,
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[17:05:54.653] WHISPER_FINAL:
+  Text: fly one squad
+
+[17:05:54.706] INTENT_REQUEST:
+  Command: fly one squad
+  Context Summary:
+    Active Squads: alpha(20), bravo(20), charlie(20), delta(20), echo(20), foxtrot(20), golf(20)
+    Enemy Count: 0
+    Wave: 4
+
+[17:05:56.415] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "alpha"
+    ],
+    "action": null,
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": null,
+    "deployFormation": null,
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": {
+        "x": 40,
+        "z": 0
+    },
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": true
+}
+
+[17:06:10.051] WHISPER_FINAL:
+  Text: deploy one squad
+
+[17:06:10.340] INTENT_REQUEST:
+  Command: deploy one squad
+  Context Summary:
+    Active Squads: alpha(20), bravo(20), charlie(20), delta(20), echo(20), foxtrot(20), golf(20)
+    Enemy Count: 0
+    Wave: 4
+
+[17:06:11.921] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "action": "deploy",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": 1,
+    "deployFormation": null,
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[17:07:04.001] WHISPER_FINAL:
+  Text: hands are being tracked and i can use gesture all the way where i want my all right
+
+[17:07:04.182] INTENT_REQUEST:
+  Command: hands are being tracked and i can use gesture all the way where i want my all right
+  Context Summary:
+    Active Squads: alpha(14), bravo(19), charlie(2)
+    Enemy Count: 33
+    Wave: 1
+
+[17:07:05.742] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "action": null,
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": null,
+    "deployFormation": null,
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": {
+        "x": 40,
+        "z": 0
+    },
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": true
+}
+
+[17:07:19.187] WHISPER_FINAL:
+  Text: deploy one squad
+
+[17:07:19.358] INTENT_REQUEST:
+  Command: deploy one squad
+  Context Summary:
+    Active Squads: 
+    Enemy Count: 10
+    Wave: 2
+
+[17:07:21.024] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "action": "deploy",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": 1,
+    "deployFormation": null,
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[17:07:34.750] WHISPER_FINAL:
+  Text: deploy
+
+[17:07:34.958] INTENT_REQUEST:
+  Command: deploy
+  Context Summary:
+    Active Squads: delta(17)
+    Enemy Count: 51
+    Wave: 2
+
+[17:07:37.431] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "action": "deploy",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": 1,
+    "deployFormation": null,
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[17:07:50.359] WHISPER_FINAL:
+  Text: like these squads in a circle the blight sorry like these squads in a circle
+
+[17:07:50.464] INTENT_REQUEST:
+  Command: these squads in a circle the blight sorry these squads in a circle
+  Context Summary:
+    Active Squads: 
+    Enemy Count: 56
+    Wave: 2
+
+[17:07:52.176] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "action": "form",
+    "formation": "circle",
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": null,
+    "deployFormation": null,
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[17:08:06.460] WHISPER_FINAL:
+  Text: supply east wide spots in a circle deploy three squads in a circle
+
+[17:08:06.534] INTENT_REQUEST:
+  Command: supply east wide spots in a circle deploy three squads in a circle
+  Context Summary:
+    Active Squads: 
+    Enemy Count: 68
+    Wave: 3
+
+[17:08:08.420] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "action": "deploy",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": 3,
+    "deployFormation": "circle",
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[17:08:21.173] WHISPER_FINAL:
+  Text: three squads
+
+[17:08:21.394] INTENT_REQUEST:
+  Command: three squads
+  Context Summary:
+    Active Squads: foxtrot(6), golf(12)
+    Enemy Count: 0
+    Wave: 3
+
+[17:08:22.995] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "action": "deploy",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": 3,
+    "deployFormation": null,
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[17:08:36.525] WHISPER_FINAL:
+  Text: golf
+
+[17:08:36.612] INTENT_REQUEST:
+  Command: golf
+  Context Summary:
+    Active Squads: golf(4), india(19), juliet(7), kilo(16)
+    Enemy Count: 17
+    Wave: 4
+
+[17:08:39.257] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "golf"
+    ],
+    "action": "hold_position",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": null,
+    "deployFormation": null,
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[17:08:52.222] WHISPER_FINAL:
+  Text: deploy five squads deploy five squads
+
+[17:08:52.442] INTENT_REQUEST:
+  Command: deploy five squads deploy five squads
+  Context Summary:
+    Active Squads: india(3)
+    Enemy Count: 68
+    Wave: 4
+
+[17:08:54.174] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "action": "deploy",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": 5,
+    "deployFormation": null,
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[17:09:07.982] WHISPER_FINAL:
+  Text: five and deploy three squads
+
+[17:09:08.077] INTENT_REQUEST:
+  Command: five and deploy three squads
+  Context Summary:
+    Active Squads: 
+    Enemy Count: 28
+    Wave: 5
+
+[17:09:10.276] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "type": "multi",
+    "commands": [
+        {
+            "targets": [
+                "all"
+            ],
+            "action": "move",
+            "formation": null,
+            "direction": null,
+            "speed": 5,
+            "path": null,
+            "zone": null,
+            "deployCount": null,
+            "deployFormation": null,
+            "waypointTargets": null,
+            "cycleWaypoints": null,
+            "pathCycle": null,
+            "relativeMove": null,
+            "relativeMovement": null,
+            "helpTarget": null,
+            "targetSquad": null,
+            "maintainSpacing": null
+        },
+        {
+            "targets": null,
+            "action": "deploy",
+            "formation": null,
+            "direction": null,
+            "speed": null,
+            "path": null,
+            "zone": null,
+            "deployCount": 3,
+            "deployFormation": null,
+            "waypointTargets": null,
+            "cycleWaypoints": null,
+            "pathCycle": null,
+            "relativeMove": null,
+            "relativeMovement": null,
+            "helpTarget": null,
+            "targetSquad": null,
+            "maintainSpacing": null
+        }
+    ]
+}
+
+[17:09:23.832] WHISPER_FINAL:
+  Text: deploy four squads deploy four squads in a circle
+
+[17:09:23.956] INTENT_REQUEST:
+  Command: deploy four squads deploy four squads in a circle
+  Context Summary:
+    Active Squads: 
+    Enemy Count: 46
+    Wave: 5
+
+[17:09:25.731] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "action": "deploy",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": 4,
+    "deployFormation": "circle",
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[17:09:38.622] WHISPER_FINAL:
+  Text: 
+
+[17:09:54.751] WHISPER_FINAL:
+  Text: five squads in a circle
+
+[17:09:54.935] INTENT_REQUEST:
+  Command: five squads in a circle
+  Context Summary:
+    Active Squads: quebec(9), sierra(13)
+    Enemy Count: 95
+    Wave: 6
+
+[17:09:57.028] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "action": "deploy",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": 5,
+    "deployFormation": "circle",
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[17:10:10.934] WHISPER_FINAL:
+  Text: deploy six squads
+
+[17:10:11.020] INTENT_REQUEST:
+  Command: deploy six squads
+  Context Summary:
+    Active Squads: 
+    Enemy Count: 56
+    Wave: 6
+
+[17:10:26.411] WHISPER_FINAL:
+  Text: six squads deploy six squads
+
+[17:10:26.494] INTENT_REQUEST:
+  Command: six squads deploy six squads
+  Context Summary:
+    Active Squads: 
+    Enemy Count: 80
+    Wave: 7
+
+[17:10:28.829] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": null,
+    "action": "deploy",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": 6,
+    "deployFormation": "circle",
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[17:10:42.122] WHISPER_FINAL:
+  Text: squad echo move up
+
+[17:10:42.349] INTENT_REQUEST:
+  Command: squad echo move up
+  Context Summary:
+    Active Squads: delta(15), echo(11), foxtrot(12), golf(19), hotel(15), zulu(17)
+    Enemy Count: 82
+    Wave: 7
+
+[17:10:44.799] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "echo"
+    ],
+    "action": null,
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": null,
+    "deployFormation": null,
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": {
+        "x": 0,
+        "z": -40
+    },
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": true
+}
+
+[17:10:57.841] WHISPER_FINAL:
+  Text: flight and squads in a circle deployed and squads in a circle
+
+[17:10:57.928] INTENT_REQUEST:
+  Command: flight and squads in a circle deployed and squads in a circle
+  Context Summary:
+    Active Squads: 
+    Enemy Count: 38
+    Wave: 8
+
+[17:11:00.093] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "action": "deploy",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": 10,
+    "deployFormation": "circle",
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[17:11:13.691] WHISPER_FINAL:
+  Text: 
+
+[17:14:57.755] WHISPER_FINAL:
+  Text: you'll see that my hands are being so
+
+[17:14:58.060] INTENT_REQUEST:
+  Command: you'll see that my hands are being so
+  Context Summary:
+    Active Squads: alpha(18), bravo(20), charlie(18)
+    Enemy Count: 29
+    Wave: 1
+
+[17:14:59.422] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": null,
+    "action": "hold",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": null,
+    "deployFormation": null,
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[17:15:13.452] WHISPER_FINAL:
+  Text: and so the idea came from uh but anyways uh i have one squad two squads ready so
+
+[17:15:13.568] INTENT_REQUEST:
+  Command: and so the idea came from but anyways i have one squad two squads ready so
+  Context Summary:
+    Active Squads: charlie(1)
+    Enemy Count: 3
+    Wave: 1
+
+[17:15:15.239] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "action": "deploy",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": 2,
+    "deployFormation": null,
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[17:15:29.302] WHISPER_FINAL:
+  Text: is for this um and the idea of the game
+
+[17:15:29.437] INTENT_REQUEST:
+  Command: is for this and the idea of the game
+  Context Summary:
+    Active Squads: delta(10), echo(11)
+    Enemy Count: 23
+    Wave: 2
+
+[17:15:30.996] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "action": "hold_position",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": null,
+    "deployFormation": null,
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": true
+}
+
+[17:15:44.716] WHISPER_FINAL:
+  Text: but uh yeah um deploy one squad hopefully i don't
+
+[17:15:44.835] INTENT_REQUEST:
+  Command: but yeah deploy one squad hopefully i don't
+  Context Summary:
+    Active Squads: 
+    Enemy Count: 22
+    Wave: 2
+
+[17:15:46.410] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "action": "deploy",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": 1,
+    "deployFormation": null,
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[17:16:00.372] WHISPER_FINAL:
+  Text: i had to take a minute for me oh never mind deploy one squad
+
+[17:16:00.515] INTENT_REQUEST:
+  Command: i had to take a minute for me oh never mind deploy one squad
+  Context Summary:
+    Active Squads: 
+    Enemy Count: 17
+    Wave: 3
+
+[17:16:02.073] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "action": "deploy",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": 1,
+    "deployFormation": null,
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[17:16:15.852] WHISPER_FINAL:
+  Text: okay okay we're making it we're making it deploy two squads or deploy one squad one squad
+
+[17:16:16.001] INTENT_REQUEST:
+  Command: okay okay we're making it we're making it deploy two squads or deploy one squad one squad
+  Context Summary:
+    Active Squads: golf(19)
+    Enemy Count: 57
+    Wave: 3
+
+[17:16:17.756] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "action": "deploy",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": 1,
+    "deployFormation": null,
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[17:16:31.333] WHISPER_FINAL:
+  Text: five four squads deploy four squads deploy three squads
+
+[17:16:31.508] INTENT_REQUEST:
+  Command: five four squads deploy four squads deploy three squads
+  Context Summary:
+    Active Squads: golf(19), hotel(10)
+    Enemy Count: 2
+    Wave: 4
+
+[17:16:33.658] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "type": "multi",
+    "commands": [
+        {
+            "targets": null,
+            "action": "deploy",
+            "formation": null,
+            "direction": null,
+            "speed": null,
+            "path": null,
+            "zone": null,
+            "deployCount": 5,
+            "deployFormation": null,
+            "waypointTargets": null,
+            "cycleWaypoints": null,
+            "pathCycle": null,
+            "relativeMove": null,
+            "relativeMovement": null,
+            "helpTarget": null,
+            "targetSquad": null,
+            "maintainSpacing": null
+        },
+        {
+            "targets": null,
+            "action": "deploy",
+            "formation": null,
+            "direction": null,
+            "speed": null,
+            "path": null,
+            "zone": null,
+            "deployCount": 4,
+            "deployFormation": null,
+            "waypointTargets": null,
+            "cycleWaypoints": null,
+            "pathCycle": null,
+            "relativeMove": null,
+            "relativeMovement": null,
+            "helpTarget": null,
+            "targetSquad": null,
+            "maintainSpacing": null
+        },
+        {
+            "targets": null,
+            "action": "deploy",
+            "formation": null,
+            "direction": null,
+            "speed": null,
+            "path": null,
+            "zone": null,
+            "deployCount": 3,
+            "deployFormation": null,
+            "waypointTargets": null,
+            "cycleWaypoints": null,
+            "pathCycle": null,
+            "relativeMove": null,
+            "relativeMovement": null,
+            "helpTarget": null,
+            "targetSquad": null,
+            "maintainSpacing": null
+        }
+    ]
+}
+
+[17:16:46.852] WHISPER_FINAL:
+  Text: deploy five squad deploy five squads
+
+[17:16:46.970] INTENT_REQUEST:
+  Command: deploy five squad deploy five squads
+  Context Summary:
+    Active Squads: 
+    Enemy Count: 9
+    Wave: 4
+
+[17:16:48.828] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "action": "deploy",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": 5,
+    "deployFormation": null,
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[17:17:02.722] WHISPER_FINAL:
+  Text: so yeah um that's
+
+[17:17:03.074] INTENT_REQUEST:
+  Command: so yeah that's
+  Context Summary:
+    Active Squads: india(20), juliet(13), kilo(20), lima(19)
+    Enemy Count: 0
+    Wave: 4
+
+[17:17:05.192] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": null,
+    "action": "hold",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": null,
+    "deployFormation": null,
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[17:17:18.339] WHISPER_FINAL:
+  Text: right now it's uh running on my gpu so to the
+
+[17:17:18.415] INTENT_REQUEST:
+  Command: right now it's running on my gpu so to the
+  Context Summary:
+    Active Squads: india(2)
+    Enemy Count: 28
+    Wave: 5
+
+[17:17:21.256] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "action": "move",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": null,
+    "deployFormation": null,
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": {
+        "x": 40,
+        "z": 0
+    },
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": true
+}
+
+[17:17:33.958] WHISPER_FINAL:
+  Text: the time uh you're judging so you can like look at it and play it uh but yeah yeah that's uh that's my project thank you
+
+[17:17:34.019] INTENT_REQUEST:
+  Command: the time you're judging so you can look at it and play it but yeah yeah that's that's my project thank you
+  Context Summary:
+    Active Squads: 
+    Enemy Count: 41
+    Wave: 6
+
+[17:17:36.243] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "action": "idle",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": null,
+    "deployFormation": null,
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[17:17:49.018] WHISPER_FINAL:
+  Text: uh... so
+
+[17:17:49.134] INTENT_REQUEST:
+  Command: ... so
+  Context Summary:
+    Active Squads: 
+    Enemy Count: 63
+    Wave: 6
+
+[17:17:57.015] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "action": "hold",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": null,
+    "deployFormation": null,
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+
+[17:18:04.523] WHISPER_FINAL:
+  Text: so you can see that my hands are being cut off
+
+[17:18:04.609] INTENT_REQUEST:
+  Command: so you can see that my hands are being cut off
+  Context Summary:
+    Active Squads: 
+    Enemy Count: 97
+    Wave: 7
+
+[17:18:07.922] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "action": "deploy",
+    "formation": null,
+    "direction": null,
+    "speed": null,
+    "path": null,
+    "zone": null,
+    "deployCount": 15,
+    "deployFormation": "circle",
+    "waypointTargets": null,
+    "cycleWaypoints": null,
+    "pathCycle": null,
+    "relativeMove": null,
+    "relativeMovement": null,
+    "helpTarget": null,
+    "targetSquad": null,
+    "maintainSpacing": null
+}
+

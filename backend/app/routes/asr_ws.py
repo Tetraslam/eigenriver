@@ -8,6 +8,7 @@ from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 
 from ..services.asr_stream import AsrEngine as WhisperAsrEngine
 from ..services.asr_vosk import VoskAsrEngine
+from ..services.game_logger import get_game_logger
 from ..settings import get_settings
 
 router = APIRouter()
@@ -60,6 +61,9 @@ async def ws_asr(websocket: WebSocket) -> None:
                     await websocket.send_json({"type": "error", "error": "no session"})
                     continue
                 final_text = await engine.finalize_segment()
+                # Log the final transcription
+                logger = get_game_logger()
+                logger.log_whisper_transcription(final_text, partial=False)
                 await websocket.send_json({"type": "final", "text": final_text})
             else:
                 await websocket.send_json({"type": "error", "error": f"unknown type: {mtype}"})

@@ -1,0 +1,188 @@
+================================================================================
+GAME SESSION LOG - 2025-08-10 16:31:53
+================================================================================
+
+[16:31:53.527] WHISPER_FINAL:
+  Text: move all squads to point echo
+
+[16:31:53.617] INTENT_REQUEST:
+  Command: move all squads to point echo
+  Context Summary:
+    Active Squads: alpha(18), bravo(20), charlie(18)
+    Enemy Count: 18
+    Wave: 1
+
+[16:31:54.509] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "waypointTargets": [
+        "echo"
+    ]
+}
+
+[16:32:04.134] WHISPER_FINAL:
+  Text: move all squads to point and echo
+
+[16:32:04.207] INTENT_REQUEST:
+  Command: move all squads to point and echo
+  Context Summary:
+    Active Squads: alpha(2), bravo(19)
+    Enemy Count: 3
+    Wave: 1
+
+[16:32:05.045] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "waypointTargets": [
+        "point",
+        "echo"
+    ],
+    "maintainSpacing": true
+}
+
+[16:32:14.534] WHISPER_FINAL:
+  Text: all squads between the waypoints and
+
+[16:32:14.697] INTENT_REQUEST:
+  Command: all squads between the waypoints and
+  Context Summary:
+    Active Squads: bravo(15)
+    Enemy Count: 0
+    Wave: 2
+
+[16:32:15.470] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "waypointTargets": [
+        "delta",
+        "echo",
+        "foxtrot"
+    ],
+    "cycleWaypoints": true
+}
+
+[16:32:25.846] WHISPER_FINAL:
+  Text: wads
+
+[16:32:25.928] INTENT_REQUEST:
+  Command: wads
+  Context Summary:
+    Active Squads: 
+    Enemy Count: 22
+    Wave: 3
+
+[16:32:26.618] INTENT_RESPONSE (SUCCESS):
+  Intent: {}
+
+[16:32:35.463] WHISPER_FINAL:
+  Text: deploy two squads
+
+[16:32:35.562] INTENT_REQUEST:
+  Command: deploy two squads
+  Context Summary:
+    Active Squads: 
+    Enemy Count: 28
+    Wave: 3
+
+[16:32:36.221] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "action": "deploy",
+    "deployCount": 2,
+    "deployFormation": "circle"
+}
+
+[16:32:45.212] WHISPER_FINAL:
+  Text: 
+
+[16:32:56.439] WHISPER_FINAL:
+  Text: uh... eyes
+
+[16:32:56.495] INTENT_REQUEST:
+  Command: ... eyes
+  Context Summary:
+    Active Squads: 
+    Enemy Count: 23
+    Wave: 4
+
+[16:32:57.460] INTENT_RESPONSE (SUCCESS):
+  Intent: {}
+
+[16:33:06.697] WHISPER_FINAL:
+  Text: deploy seven squads
+
+[16:33:06.750] INTENT_REQUEST:
+  Command: deploy seven squads
+  Context Summary:
+    Active Squads: 
+    Enemy Count: 32
+    Wave: 5
+
+[16:33:07.463] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "action": "deploy",
+    "deployCount": 7
+}
+
+[16:33:16.556] WHISPER_FINAL:
+  Text: 
+
+[16:33:28.692] WHISPER_FINAL:
+  Text: all right help in india
+
+[16:33:28.746] INTENT_REQUEST:
+  Command: all right help in india
+  Context Summary:
+    Active Squads: foxtrot(15), golf(17), hotel(1), india(15), juliet(16), kilo(9), lima(20)
+    Enemy Count: 96
+    Wave: 6
+
+[16:33:29.694] INTENT_RESPONSE (ERROR):
+  Error: Validation error: 1 validation error for SingleIntent
+action
+  Input should be 'flank', 'pincer', 'hold', 'advance', 'screen', 'intercept', 'retreat', 'patrol', 'rally', 'escort', 'attack', 'defend', 'regroup', 'focus_fire' or 'deploy' [type=literal_error, input_value='help', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.11/v/literal_error
+  Raw Response: {'type': 'multi', 'commands': [{'targets': ['all'], 'relativeMove': {'direction': 'right', 'distance': 40}, 'maintainSpacing': True}, {'targets': ['all'], 'action': 'help', 'helpTarget': 'india'}]}
+
+[16:33:37.486] WHISPER_FINAL:
+  Text: 
+
+[16:33:48.439] WHISPER_FINAL:
+  Text: deploy 18 squads
+
+[16:33:48.512] INTENT_REQUEST:
+  Command: deploy 18 squads
+  Context Summary:
+    Active Squads: foxtrot(15), golf(11), juliet(13), lima(4)
+    Enemy Count: 84
+    Wave: 7
+
+[16:33:49.319] INTENT_RESPONSE (ERROR):
+  Error: Validation error: 1 validation error for SingleIntent
+deployCount
+  Input should be less than or equal to 10 [type=less_than_equal, input_value=18, input_type=int]
+    For further information visit https://errors.pydantic.dev/2.11/v/less_than_equal
+  Raw Response: {'action': 'deploy', 'deployCount': 18}
+
+[16:33:58.871] WHISPER_FINAL:
+  Text: deploy eighteen squads
+
+[16:33:58.936] INTENT_REQUEST:
+  Command: deploy eighteen squads
+  Context Summary:
+    Active Squads: 
+    Enemy Count: 48
+    Wave: 7
+
+[16:33:59.762] INTENT_RESPONSE (ERROR):
+  Error: Validation error: 1 validation error for SingleIntent
+deployCount
+  Input should be less than or equal to 10 [type=less_than_equal, input_value=18, input_type=int]
+    For further information visit https://errors.pydantic.dev/2.11/v/less_than_equal
+  Raw Response: {'action': 'deploy', 'deployCount': 18}
+

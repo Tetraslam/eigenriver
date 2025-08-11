@@ -77,8 +77,8 @@ export class Renderer {
       let centerMarker = this.shipMeshes.get(centerMarkerId)
       if (!centerMarker && squad.ships.length > 0) {
         const geom = new THREE.SphereGeometry(2, 16, 16)
-        const color = squad.name === 'alpha' ? '#ff0000' : 
-                     squad.name === 'bravo' ? '#00ff00' : '#0000ff'
+        // Color based on squad type
+        const color = this.getSquadColor(squad.squadType)
         const mat = new THREE.MeshBasicMaterial({ 
           color,
           opacity: 0.3,
@@ -167,16 +167,15 @@ export class Renderer {
         
         let mesh = this.shipMeshes.get(ship.id)
         if (!mesh) {
-          // Create ship mesh
-          const geom = new THREE.ConeGeometry(0.8, 2.4, 8)
-          const color = squad.name === 'alpha' ? '#ff8888' : 
-                       squad.name === 'bravo' ? '#88ff88' : '#8888ff'
+          // Create ship mesh with squad-type specific geometry and color
+          const color = this.getSquadColor(squad.squadType)
+          const geom = this.getSquadGeometry(squad.squadType)
           const mat = new THREE.MeshStandardMaterial({ 
             color,
-            metalness: 0.3,
-            roughness: 0.7,
+            metalness: squad.squadType === 'sniper' ? 0.6 : 0.3,
+            roughness: squad.squadType === 'defender' ? 0.3 : 0.7,
             emissive: color,
-            emissiveIntensity: 0.1
+            emissiveIntensity: squad.squadType === 'assault' ? 0.2 : 0.1
           })
           mesh = new THREE.Mesh(geom, mat)
           this.scene.add(mesh)
@@ -410,6 +409,31 @@ export class Renderer {
   }
 
   // Future: draw grid coordinates (A..H, 1..8) as overlay sprites
+
+  private getSquadColor(type: string): string {
+    switch (type) {
+      case 'assault': return '#ff4444'   // Red
+      case 'sniper': return '#aa44ff'    // Purple
+      case 'bomber': return '#ff8844'    // Orange
+      case 'defender': return '#4488ff'  // Blue
+      default: return '#888888'
+    }
+  }
+  
+  private getSquadGeometry(type: string): THREE.BufferGeometry {
+    switch (type) {
+      case 'assault': // Aggressive cone
+        return new THREE.ConeGeometry(0.7, 2.8, 6)
+      case 'sniper': // Elongated diamond
+        return new THREE.OctahedronGeometry(0.8, 0)
+      case 'bomber': // Bulky sphere
+        return new THREE.SphereGeometry(1, 8, 6)
+      case 'defender': // Shield-like box
+        return new THREE.BoxGeometry(1.2, 0.8, 1.8)
+      default:
+        return new THREE.ConeGeometry(0.8, 2.4, 8)
+    }
+  }
 
   render() {
     this.renderer.render(this.scene, this.camera)

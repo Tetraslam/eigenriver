@@ -1,0 +1,74 @@
+================================================================================
+GAME SESSION LOG - 2025-08-10 15:53:39
+================================================================================
+
+[15:53:39.991] WHISPER_FINAL:
+  Text: deploy
+
+[15:53:40.105] INTENT_REQUEST:
+  Command: deploy
+  Context Summary:
+    Active Squads: alpha(20), bravo(20), charlie(20)
+    Enemy Count: 1
+    Wave: 1
+
+[15:53:40.907] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [],
+    "action": "deploy",
+    "formation": "none",
+    "direction": "none",
+    "speed": 0,
+    "deployCount": 1,
+    "path": null,
+    "zone": null
+}
+
+[15:53:54.351] WHISPER_FINAL:
+  Text: 
+
+[15:54:10.294] WHISPER_FINAL:
+  Text: the squads cycle between the uh waypoints and deploy five
+
+[15:54:10.343] INTENT_REQUEST:
+  Command: the squads cycle between the uh waypoints and deploy five
+  Context Summary:
+    Active Squads: bravo(18), charlie(3), delta(1)
+    Enemy Count: 2
+    Wave: 3
+
+[15:54:11.518] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "action": "deploy",
+    "formation": "sphere",
+    "direction": "none",
+    "speed": 0,
+    "path": null,
+    "zone": null,
+    "deployCount": 5
+}
+
+[15:54:26.091] WHISPER_FINAL:
+  Text: one two three four five
+
+[15:54:26.218] INTENT_REQUEST:
+  Command: one two three four five
+  Context Summary:
+    Active Squads: charlie(2), echo(16), foxtrot(20), golf(14), hotel(18), india(6)
+    Enemy Count: 8
+    Wave: 4
+
+[15:54:26.987] INTENT_RESPONSE (SUCCESS):
+  Intent: {
+    "targets": [
+        "all"
+    ],
+    "action": "hold",
+    "formation": "none",
+    "direction": "none",
+    "speed": 0
+}
+

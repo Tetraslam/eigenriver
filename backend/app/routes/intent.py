@@ -1,80 +1,17 @@
 from __future__ import annotations
 
 import json
-from typing import Any, Dict, List, Literal, Optional, Tuple
+from typing import Any, Dict, Optional
 
 from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel, Field, ValidationError, field_validator
+from pydantic import BaseModel, ValidationError
 
+from ..schemas.intent_schema import FlexibleIntent, IntentCommand, MultiIntent
 from ..services.cerebras import generate_intent_json
+from ..services.game_logger import get_game_logger
 from ..settings import get_settings
 
 router = APIRouter()
-
-
-Target = Literal[
-    "alpha",
-    "bravo",
-    "charlie",
-    "all",
-    "carriers",
-    "interceptors",
-]
-
-Action = Literal[
-    "flank",
-    "pincer",
-    "hold",
-    "advance",
-    "screen",
-    "intercept",
-    "retreat",
-    "patrol",
-    "rally",
-    "escort",
-    "attack",
-    "defend",
-    "regroup",
-    "focus_fire",
-    "deploy",  # Deploy new squads
-]
-
-Formation = Literal["none", "wall", "wedge", "sphere", "swarm", "column", "line", "diamond"]
-Direction = Literal["left", "right", "center", "north", "south", "east", "west", "bearing", "vector", "none", "towards_enemies", "away_from_enemies"]
-
-
-class Zone(BaseModel):
-    type: Literal["sphere"]
-    center: Tuple[float, float, float]
-    r: float = Field(gt=0)
-
-
-class SingleIntent(BaseModel):
-    targets: List[Target]
-    action: Action
-    formation: Formation
-    direction: Direction
-    speed: int = Field(ge=0, le=10)
-    path: Optional[List[Tuple[float, float, float]]] = None
-    zone: Optional[Zone] = None
-    deployCount: Optional[int] = Field(None, ge=1, le=10)  # For deploy action
-
-    @field_validator("path")
-    @classmethod
-    def valid_path(cls, v: Optional[List[Tuple[float, float, float]]]):
-        if v is None:
-            return v
-        if len(v) == 0:
-            raise ValueError("path cannot be empty when provided")
-        return v
-
-class MultiIntent(BaseModel):
-    type: Literal["multi"]
-    commands: List[SingleIntent]
-
-from typing import Union
-
-Intent = Union[SingleIntent, MultiIntent]
 
 
 class IntentRequest(BaseModel):
@@ -84,40 +21,65 @@ class IntentRequest(BaseModel):
 
 
 class IntentResponse(BaseModel):
-    intent: Intent
-    source: Literal["grammar", "llm", "repaired"]
+    intent: FlexibleIntent
+    source: str  # "llm" or "fallback"
 
 
 @router.post("/", response_model=IntentResponse)
 async def post_intent(body: IntentRequest) -> IntentResponse:
     settings = get_settings()
+    logger = get_game_logger()
+    
+    # Clean up the text (remove filler words)
+    import re
+    cleaned_text = re.sub(r'\b(uh|um|ah|er|like)\b', '', body.text, flags=re.IGNORECASE)
+    cleaned_text = ' '.join(cleaned_text.split()).strip()  # Remove extra spaces
+    
+    if not cleaned_text:
+        # If text is empty after cleanup, return empty intent
+        logger.log_intent_request(body.text, body.context)
+        intent = IntentCommand()
+        logger.log_intent_response(intent.model_dump(), True)
+        return IntentResponse(intent=intent, source="fallback")
+    
+    # Log the incoming request
+    logger.log_intent_request(cleaned_text, body.context)
 
-    # 1) TODO: fast grammar path — keep for later; always fallthrough to LLM for now
-    # For hackathon day 1, rely on LLM + strict server validation
-
-    # 2) LLM call - use SingleIntent as the base schema
+    # LLM call - use flexible schema that supports both single and multi-commands
     try:
         raw_json = await generate_intent_json(
-            text=body.text,
-            schema_model=SingleIntent,  # Use SingleIntent for schema generation
+            text=cleaned_text,
+            schema_model=FlexibleIntent,  # Use the flexible union schema
             context=body.context or {},
             model=settings.model_id,
             api_key=settings.cerebras_api_key,
             enforce_schema=settings.json_enforce_strict,
         )
     except RuntimeError as e:
+        logger.log_intent_response({}, False, str(e))
         raise HTTPException(status_code=502, detail=str(e)) from e
 
-    # 3) Validate & return - check if it's a multi-command response
+    # Validate & return - handle both single and multi-command responses
     try:
-        # First check if it's a multi-command
+        # Check if it's a multi-command response
         if isinstance(raw_json, dict) and raw_json.get("type") == "multi":
             intent = MultiIntent.model_validate(raw_json)
         else:
-            intent = SingleIntent.model_validate(raw_json)
+            intent = IntentCommand.model_validate(raw_json)
+        
+        # Log successful response
+        logger.log_intent_response(intent.model_dump(), True)
+        
         return IntentResponse(intent=intent, source="llm")
     except ValidationError as e:
-        # If enforce_schema is on, the generator already tried to repair once.
-        raise HTTPException(status_code=422, detail=e.errors()) from e
-
-
+        # Log the error with the raw response for debugging
+        error_msg = str(e)
+        logger.log_intent_response(raw_json, False, f"Validation error: {error_msg}\n  Raw Response: {raw_json}")
+        
+        # Print for debugging
+        print(f"[Intent] Validation failed. Raw response: {raw_json}")
+        print(f"[Intent] Validation errors: {error_msg}")
+        
+        # Return an empty command as fallback
+        intent = IntentCommand()
+        return IntentResponse(intent=intent, source="fallback")

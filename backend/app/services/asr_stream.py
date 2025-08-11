@@ -17,6 +17,7 @@ def _get_model() -> WhisperModel:
     # Lazy-load singleton model (small.en by default for quality; tune to tiny.en for latency)
     if "model" not in _MODEL_SINGLETON:
         s = get_settings()
+        print(f"[ASR] Loading Whisper model: {s.whisper_model_id} on {s.whisper_device}")
         try:
             _MODEL_SINGLETON["model"] = WhisperModel(
                 s.whisper_model_id,

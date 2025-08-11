@@ -1,8 +1,11 @@
 import * as THREE from 'three'
 
+export type SquadType = 'assault' | 'sniper' | 'bomber' | 'defender'
+
 export interface Ship {
   id: string
-  squad: 'alpha' | 'bravo' | 'charlie'
+  squad: string  // Now dynamic squad names
+  squadType: SquadType
   position: THREE.Vector3
   velocity: THREE.Vector3
   target?: THREE.Vector3
@@ -23,9 +26,10 @@ export interface Enemy {
 }
 
 export interface Squad {
-  name: 'alpha' | 'bravo' | 'charlie'
+  name: string  // Now dynamic squad names
+  squadType: SquadType
   ships: Ship[]
-  formation: 'wedge' | 'wall' | 'sphere' | 'swarm' | 'column'
+  formation: 'wedge' | 'wall' | 'sphere' | 'swarm' | 'column' | 'line' | 'diamond'
   center: THREE.Vector3
   heading: number
   speed: number
@@ -47,6 +51,7 @@ export class GameState {
   frame = 0
   landmarks: { name: string, position: THREE.Vector3 }[] = []
   private assaultPulseTimer = 0
+  soundManager?: any  // Will be set from App
   
   // Squad deployment system
   kills = 0
@@ -60,25 +65,31 @@ export class GameState {
   }
   
   private initSquads() {
-    // Create 3 squads of 20 ships each
-    const squadNames: ('alpha' | 'bravo' | 'charlie')[] = ['alpha', 'bravo', 'charlie']
+    // Create 3 squads of 20 ships each with random types
+    const squadNames = ['alpha', 'bravo', 'charlie']
+    const squadTypes: SquadType[] = ['assault', 'sniper', 'bomber', 'defender']
     
     for (let s = 0; s < squadNames.length; s++) {
       const squadName = squadNames[s]
+      const squadType = squadTypes[Math.floor(Math.random() * squadTypes.length)]
       const ships: Ship[] = []
+      
+      // Squad-type specific stats
+      const stats = this.getSquadTypeStats(squadType)
       
       for (let i = 0; i < 20; i++) {
         const ship: Ship = {
           id: `${squadName}-${i}`,
           squad: squadName,
+          squadType,
           position: new THREE.Vector3(
             (i % 5) * 3 - 6,
             0.5,
             Math.floor(i / 5) * 3 + s * 20 - 20
           ),
           velocity: new THREE.Vector3(0, 0, 0),
-          hp: 100,
-          maxHp: 100,
+          hp: stats.hp,
+          maxHp: stats.hp,
           cooldown: 0
         }
         ships.push(ship)
@@ -86,16 +97,30 @@ export class GameState {
       
       this.squads.set(squadName, {
         name: squadName,
+        squadType,
         ships,
         formation: 'wedge',
         center: new THREE.Vector3(0, 0, s * 20 - 20),
         heading: 0,
-        speed: 2,
+        speed: stats.speed,
         path: undefined,
         currentWaypoint: undefined,
         pathCycle: false,
         encircle: undefined
       })
+    }
+  }
+  
+  private getSquadTypeStats(type: SquadType) {
+    switch (type) {
+      case 'assault':  // Red - Fast, rapid fire, low HP
+        return { hp: 80, speed: 3, fireRate: 0.15, damage: 10, range: 40 }
+      case 'sniper':   // Purple - Slow, long range, high damage
+        return { hp: 100, speed: 1.5, fireRate: 0.8, damage: 40, range: 80 }
+      case 'bomber':   // Orange - Medium speed, AOE attacks
+        return { hp: 120, speed: 2, fireRate: 0.5, damage: 20, range: 50 }
+      case 'defender': // Blue - Tanky, medium everything
+        return { hp: 150, speed: 2, fireRate: 0.3, damage: 15, range: 45 }
     }
   }
 
@@ -182,26 +207,70 @@ export class GameState {
     // Update individual ships to maintain formation
     this.applyFormation(squad, dt)
     
-    // Auto-fire at enemies in range (always on)
-    const FIRE_RANGE = 50  // 1.3x previous 20
-    const FIRE_COOLDOWN = 0.25
+    // Auto-fire at enemies in range with squad-type specific patterns
+    const stats = this.getSquadTypeStats(squad.squadType)
+    
     for (const ship of squad.ships) {
       ship.cooldown = Math.max(0, (ship.cooldown ?? 0) - dt)
-      let fired = false
+      
+      // Find targets in range
+      const targetsInRange: Enemy[] = []
       for (const enemy of this.enemies.values()) {
         const dist = ship.position.distanceTo(enemy.position)
-        if (dist < FIRE_RANGE) {
-          if (ship.cooldown <= 0) {
-            const aim = enemy.position.clone().sub(ship.position).normalize()
-            this.fireProjectile(ship.position, aim, ship.id, 15)
-            ship.cooldown = FIRE_COOLDOWN
-            fired = true
-          }
-          break
+        if (dist < stats.range) {
+          targetsInRange.push(enemy)
         }
       }
-      if (!fired && ship.cooldown < 0.05) {
-        // small random jitter to avoid sync volleys
+      
+      if (targetsInRange.length > 0 && ship.cooldown <= 0) {
+        const target = targetsInRange[0]
+        // Debug: check what target.position is
+        if (!target.position || typeof target.position.clone !== 'function') {
+          console.error('Invalid target position:', target, 'position:', target.position)
+          continue
+        }
+        const aim = target.position.clone().sub(ship.position).normalize()
+        
+        switch (squad.squadType) {
+          case 'assault': // Rapid single shots
+            this.fireProjectile(ship.position, aim, ship.id, stats.damage)
+            ship.cooldown = stats.fireRate
+            // Play sound occasionally
+            if (Math.random() < 0.05) this.soundManager?.playLaser('player')
+            break
+            
+          case 'sniper': // Powerful single shot
+            this.fireProjectile(ship.position, aim, ship.id, stats.damage)
+            // Tracer effect - faster projectile
+            const lastProj = this.projectiles[this.projectiles.length - 1]
+            if (lastProj) lastProj.vel.multiplyScalar(1.5)
+            ship.cooldown = stats.fireRate
+            // Play sound occasionally
+            if (Math.random() < 0.1) this.soundManager?.playLaser('player')
+            break
+            
+          case 'bomber': // Spread shot
+            for (let i = -1; i <= 1; i++) {
+              const spreadAngle = i * 0.15
+              const spreadAim = new THREE.Vector3(
+                aim.x * Math.cos(spreadAngle) - aim.z * Math.sin(spreadAngle),
+                0,
+                aim.x * Math.sin(spreadAngle) + aim.z * Math.cos(spreadAngle)
+              )
+              this.fireProjectile(ship.position, spreadAim, ship.id, stats.damage / 2)
+            }
+            ship.cooldown = stats.fireRate
+            break
+            
+          case 'defender': // Dual shot
+            const perpendicular = new THREE.Vector3(-aim.z, 0, aim.x).multiplyScalar(0.3)
+            this.fireProjectile(ship.position.clone().add(perpendicular), aim, ship.id, stats.damage)
+            this.fireProjectile(ship.position.clone().sub(perpendicular), aim, ship.id, stats.damage)
+            ship.cooldown = stats.fireRate
+            break
+        }
+      } else if (ship.cooldown < 0.05) {
+        // Small random jitter to avoid sync volleys
         ship.cooldown += Math.random() * 0.02
       }
     }
@@ -293,6 +362,8 @@ export class GameState {
       if (dist < 30 && enemy.cooldown <= 0) {
         this.fireProjectile(enemy.position, dir, enemy.id, 8)
         enemy.cooldown = 0.15 / cdMul
+        // Play sound occasionally
+        if (Math.random() < 0.02) this.soundManager?.playLaser('enemy')
       }
     } else if (enemy.type === 'bomber') {
       // Slow, heads straight in, drops a spread at mid-range
@@ -414,34 +485,68 @@ export class GameState {
     })
   }
   
-  deploySquad(count: number = 1): string[] {
+  deploySquad(count: number = 1, formation: 'circle' | 'triangle' | 'square' | 'random' = 'random'): string[] {
     const deployed: string[] = []
     const squadNames = ['delta', 'echo', 'foxtrot', 'golf', 'hotel', 'india', 'juliet', 'kilo', 'lima', 'mike', 'november', 'oscar', 'papa', 'quebec', 'romeo', 'sierra', 'tango', 'uniform', 'victor', 'whiskey', 'xray', 'yankee', 'zulu']
+    const squadTypes: SquadType[] = ['assault', 'sniper', 'bomber', 'defender']
     
-    for (let i = 0; i < count && this.deployableSquads > 0; i++) {
-      this.deployableSquads--
+    // Deploy the requested amount, even if we don't have enough points
+    const actualCount = Math.min(count, 100)  // Cap at 100 for performance
+    
+    for (let i = 0; i < actualCount; i++) {
+      // Deduct points if available
+      if (this.deployableSquads > 0) {
+        this.deployableSquads--
+      }
       
       // Generate squad name
       const nameIndex = (this.nextSquadId - 4) % squadNames.length
       const name = squadNames[nameIndex]
       this.nextSquadId++
       
-      // Create squad at a safe spawn position
-      const angle = Math.random() * Math.PI * 2
-      const radius = 15 + Math.random() * 10
-      const centerX = Math.cos(angle) * radius
-      const centerZ = Math.sin(angle) * radius
+      // Random squad type
+      const squadType = squadTypes[Math.floor(Math.random() * squadTypes.length)]
+      const stats = this.getSquadTypeStats(squadType)
+      
+      // Create squad at a position based on formation
+      let centerX: number, centerZ: number
+      
+      if (formation === 'circle') {
+        const angle = (i / count) * Math.PI * 2
+        const radius = 30
+        centerX = Math.cos(angle) * radius
+        centerZ = Math.sin(angle) * radius
+      } else if (formation === 'triangle') {
+        const angles = [0, Math.PI * 2/3, Math.PI * 4/3]
+        const angle = angles[i % 3]
+        const radius = 25 + Math.floor(i / 3) * 10
+        centerX = Math.cos(angle) * radius
+        centerZ = Math.sin(angle) * radius
+      } else if (formation === 'square') {
+        const side = Math.floor(Math.sqrt(count))
+        const x = (i % side) - side/2
+        const z = Math.floor(i / side) - side/2
+        centerX = x * 20
+        centerZ = z * 20
+      } else {
+        // Random positions
+        const angle = Math.random() * Math.PI * 2
+        const radius = 15 + Math.random() * 10
+        centerX = Math.cos(angle) * radius
+        centerZ = Math.sin(angle) * radius
+      }
       
       const squad: Squad = {
         name,
+        squadType,
         ships: [],
         center: new THREE.Vector3(centerX, 0, centerZ),
-        formation: 'line',
+        formation: 'wedge',
         heading: 0,
-        speed: 0,
-        path: null,
-        currentWaypoint: 0,
-        encircle: false,
+        speed: stats.speed,
+        path: undefined,
+        currentWaypoint: undefined,
+        encircle: undefined,
         pathCycle: false
       }
       
@@ -449,15 +554,16 @@ export class GameState {
       for (let j = 0; j < 20; j++) {
         const ship: Ship = {
           id: `${name}-${j}`,
-          squadId: name,
+          squad: name,
+          squadType,
           position: new THREE.Vector3(
             centerX + (Math.random() - 0.5) * 8,
             0,
             centerZ + (Math.random() - 0.5) * 8
           ),
           velocity: new THREE.Vector3(0, 0, 0),
-          hp: 100,
-          maxHp: 100,
+          hp: stats.hp,
+          maxHp: stats.hp,
           cooldown: 0
         }
         squad.ships.push(ship)
@@ -465,7 +571,7 @@ export class GameState {
       
       this.squads.set(name, squad)
       deployed.push(name)
-      console.log(`[GameState] Deployed squad "${name}" at (${Math.round(centerX)}, ${Math.round(centerZ)})`)
+      console.log(`[GameState] Deployed ${squadType} squad "${name}" at (${Math.round(centerX)}, ${Math.round(centerZ)})`)
     }
     
     return deployed
